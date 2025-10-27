@@ -1,0 +1,10 @@
+^C:\USERS\DIANA.ODAGIU\DESKTOP\PDP\PDP\LAB1\BUILD\CMAKEFILES\3EA31ECDBDD40BD3F2EBF822DC995AA7\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/diana.odagiu/Desktop/pdp/pdp/lab1 -BC:/Users/diana.odagiu/Desktop/pdp/pdp/lab1/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/diana.odagiu/Desktop/pdp/pdp/lab1/build/BankConcurrency.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

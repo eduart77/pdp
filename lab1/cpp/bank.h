@@ -9,7 +9,7 @@
 class Bank {
 private:
     std::vector<std::unique_ptr<Account>> accounts;
-    std::vector<std::unique_ptr<std::mutex>> account_mutexes;
+    mutable std::vector<std::unique_ptr<std::mutex>> account_mutexes;
     const int initial_total;
     
 public:

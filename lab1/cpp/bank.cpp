@@ -41,26 +41,44 @@ bool Bank::transfer(int from_id, int to_id, int amount) {
         std::lock_guard<std::mutex> lock1(*account_mutexes[from_id]);
         std::lock_guard<std::mutex> lock2(*account_mutexes[to_id]);
         
-        try {
-            accounts[from_id]->withdraw(amount);
-            accounts[to_id]->deposit(amount);
-            return true;
-        } catch (const std::exception&) {
-            // Rollback
-            accounts[from_id]->deposit(amount);
+        // Check if sufficient funds before attempting transfer
+        if (accounts[from_id]->get_balance() < amount) {
             return false;
         }
-    } else {
-        std::lock_guard<std::mutex> lock1(*account_mutexes[to_id]);
-        std::lock_guard<std::mutex> lock2(*account_mutexes[from_id]);
         
         try {
             accounts[from_id]->withdraw(amount);
             accounts[to_id]->deposit(amount);
             return true;
         } catch (const std::exception&) {
-            // Rollback
-            accounts[from_id]->deposit(amount);
+            // Rollback - only needed if withdraw succeeded but deposit failed
+            try {
+                accounts[from_id]->deposit(amount);
+            } catch (const std::exception&) {
+                // If rollback fails, we're in a bad state
+            }
+            return false;
+        }
+    } else {
+        std::lock_guard<std::mutex> lock1(*account_mutexes[to_id]);
+        std::lock_guard<std::mutex> lock2(*account_mutexes[from_id]);
+        
+        // Check if sufficient funds before attempting transfer
+        if (accounts[from_id]->get_balance() < amount) {
+            return false;
+        }
+        
+        try {
+            accounts[from_id]->withdraw(amount);
+            accounts[to_id]->deposit(amount);
+            return true;
+        } catch (const std::exception&) {
+            // Rollback - only needed if withdraw succeeded but deposit failed
+            try {
+                accounts[from_id]->deposit(amount);
+            } catch (const std::exception&) {
+                // If rollback fails, we're in a bad state
+            }
             return false;
         }
     }
@@ -69,7 +87,8 @@ bool Bank::transfer(int from_id, int to_id, int amount) {
 int Bank::get_total_balance() const {
     int total = 0;
     // Lock all accounts to get a consistent snapshot
-    std::vector<std::lock_guard<std::mutex>> locks;
+    std::vector<std::unique_lock<std::mutex>> locks;
+    locks.reserve(account_mutexes.size());
     for (auto& mtx : account_mutexes) {
         locks.emplace_back(*mtx);
     }

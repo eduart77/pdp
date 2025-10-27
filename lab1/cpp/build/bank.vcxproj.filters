@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\diana.odagiu\Desktop\pdp\pdp\lab1\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\diana.odagiu\Desktop\pdp\pdp\lab1\bank.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\diana.odagiu\Desktop\pdp\pdp\lab1\account.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\diana.odagiu\Desktop\pdp\pdp\lab1\account.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\diana.odagiu\Desktop\pdp\pdp\lab1\bank.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\diana.odagiu\Desktop\pdp\pdp\lab1\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{BEB1194E-9BE3-3FB2-8EDD-B71AC7A8835C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{DC3F230A-3CB7-36E6-9D16-919FA5709A6D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
